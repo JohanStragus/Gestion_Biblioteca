@@ -35,6 +35,7 @@ public class GestorBiblioteca{
         usuari.afegirLlibre(llibre);
 
         System.out.println(usuari.getNom() + " ha agafat el llibre: " + llibre.getTitol());
+        return true;
     }
 
     // metode para devolver un libro
@@ -46,17 +47,58 @@ public class GestorBiblioteca{
 
         // marcamos el libro como devuelto
         llibre.retornar();
+        
+        Prestec prestecTrobat = null;
+
+        for (int i = 0; i < prestecs.size(); i++) {
+            Prestec p = prestecs.get(i);
+
+            // comprobamos si coincide el usuario y el libro
+            if (p.getUsuari() == usuari && p.getLlibre() == llibre) {
+                prestecTrobat = p;
+                i = prestecs.size(); // esto fuerza salir del bucle sin usar break
+            }
+        }
+
+        // Eliminamos el prestamo de la lista
+        // comprobamos que no sigui null el prestec
+        // sino estare haciendo remove a un null y no tendra sentido
+        if (prestecTrobat != null) {
+            prestecs.remove(prestecTrobat);
+        }
+
 
         // lo quitamos del usuario
         usuari.retornarLlibre(llibre);
-        System.out.println("Llibre retornat correctament.");
+        System.out.println(usuari.getNom() + " ha retornat el llibre: " + llibre.getTitol());
         return true;
+       }
 
-        // metodo que muestra todos los prestecs fets
-        publc void mostrarPrestecs(){
-            for(Prestec p : prestecs){
-                System.out.println(p);
-            }
+    // metodo que muestra todos los prestecs fets
+    public void mostrarPrestecs() {
+         if (prestecs.isEmpty()) {
+            System.out.println("No hi ha cap prestec actiu.");
+            return;
+        }
+        for (Prestec p : prestecs) {
+            System.out.println(p);
         }
     }
+      // Metodo para comprovar si un libro esta disponible
+    public boolean comprovarDisponibilitat(Llibre llibre) {
+        return llibre.estaDisponible();
+    }
+ 
+    // Metodo para mostrar estadisticas, cuantas veces ha sido prestado cada libro
+    public void mostrarEstadistiques(Biblioteca biblioteca) {
+        System.out.println("--- Estadistiques ---");
+        System.out.println("Total prestecs actius: " + prestecs.size());
+ 
+        // Mostramos las veces que ha sido prestado cada libro
+        ArrayList<Llibre> llibres = biblioteca.getLlibres();
+        for (int i = 0; i < llibres.size(); i++) {
+            System.out.println(llibres.get(i).getTitol() + " -> " + llibres.get(i).getVegadesPrestat() + " vegades prestat");
+        }
+    }
+
 }
