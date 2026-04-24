@@ -95,10 +95,27 @@ public class GestorBiblioteca{
         System.out.println("Total prestecs actius: " + prestecs.size());
  
         // Mostramos las veces que ha sido prestado cada libro
-        ArrayList<Llibre> llibres = biblioteca.getLlibres();
+        // modificacion: al intentar ejecutar en el main tenia que hacer
+        // un casting aqui conversion a arrayList
+        ArrayList<Llibre> llibres = (ArrayList<Llibre>) biblioteca.getLlibres();
         for (int i = 0; i < llibres.size(); i++) {
             System.out.println(llibres.get(i).getTitol() + " -> " + llibres.get(i).getVegadesPrestat() + " vegades prestat");
         }
     }
+
+    // metodo nuevo para cuando el usuario busca un libro por nombre
+	// devuelve si existe o no
+	public void retornarLlibrePerTitol(Usuari usuari, Biblioteca biblioteca, String titol) {
+
+		Llibre llibre = biblioteca.buscarLlibrePerTitol(titol);
+
+		if (llibre == null) {
+			System.out.println("Aquest llibre no existeix.");
+			return;
+		}
+
+		// si existe hacemos el return normal
+		retornarLlibre(usuari, llibre);
+	}
 
 }
