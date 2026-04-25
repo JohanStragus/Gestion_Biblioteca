@@ -5,7 +5,7 @@ Projecte de l'assignatura **Entorns de Desenvolupament**.
 ## 👥 Membres del grup
 
 * Juan Martín
-* (Pon aquí tu nombre Adil, modifica el README)
+* Adil Chainakh
 
 ## 🧩 Classes del projecte
 
